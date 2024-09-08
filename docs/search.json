@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "homework 3.html",
+    "href": "homework 3.html",
+    "title": "ST 558 Homework 3",
+    "section": "",
+    "text": "Reading in previous code\nload(\"hw2_list.rda\")"
+  },
+  {
+    "objectID": "homework 3.html#task-1",
+    "href": "homework 3.html#task-1",
+    "title": "ST 558 Homework 3",
+    "section": "Task 1",
+    "text": "Task 1\nCreating new columns for both data frames\n\nbp_list$treatment$status &lt;- character(20)\nbp_list$placebo$status &lt;- character(10)\n\nFilling the new columns with values\n\nfor (i in 1:20) {\n  if (bp_list$treatment$post_bp[i] &gt; 130) {\n    bp_list$treatment$status[i] = \"high\"\n  } else if (bp_list$treatment$post_bp[i] &lt;= 130 & bp_list$treatment$post_bp[i] &gt; 120) {\n    bp_list$treatment$status[i] = \"borderline\"\n  } else if (bp_list$treatment$post_bp[i] &lt;= 120) {\n    bp_list$treatment$status[i] = \"optimal\"\n  } else {\n    bp_list$treatment$status[i] = \"error\"\n  }\n}\n\n\nfor (i in 1:10) {\n  if (bp_list$placebo$post_bp[i] &gt; 130) {\n    bp_list$placebo$status[i] = \"high\"\n  } else if (bp_list$placebo$post_bp[i] &lt;= 130 & bp_list$placebo$post_bp[i] &gt; 120) {\n    bp_list$placebo$status[i] = \"borderline\"\n  } else if (bp_list$placebo$post_bp[i] &lt;= 120) {\n    bp_list$placebo$status[i] = \"optimal\"\n  } else {\n    bp_list$placebo$status[i] = \"error\"\n  }\n}"
+  },
+  {
+    "objectID": "homework 3.html#task-2",
+    "href": "homework 3.html#task-2",
+    "title": "ST 558 Homework 3",
+    "section": "Task 2",
+    "text": "Task 2\nFunction Writing\n\nlist_fun &lt;- function(df_list, stat = \"mean\") {\n  my_fun &lt;- get(stat)\n  \n  treat_pre &lt;- my_fun(df_list$treatment$pre)\n  treat_post &lt;- my_fun(df_list$treatment$post)\n  treat_diff &lt;- my_fun(df_list$treatment$diff)\n  \n  plac_pre &lt;- my_fun(df_list$placebo$pre)\n  plac_post &lt;- my_fun(df_list$placebo$post)\n  plac_diff &lt;- my_fun(df_list$placebo$diff)\n  \n  stat_vec &lt;- c(treat_pre, treat_post, treat_diff, plac_pre, plac_post, plac_diff)\n  \n  names_vec &lt;- c(\"treat_pre\", \"treat_post\", \"treat_diff\", \"plac_pre\", \"plac_post\", \"plac_diff\")\n  for (i in 1:6) {\n    names_vec[i] = paste0(names_vec[i], \"_\", stat)\n  }\n  \n  names(stat_vec) &lt;- names_vec\n  \n  return(stat_vec)\n}\n\nTesting the function\n\nlist_fun(bp_list)\n\n treat_pre_mean treat_post_mean treat_diff_mean   plac_pre_mean  plac_post_mean \n         131.60          125.95            5.65          131.90          128.90 \n plac_diff_mean \n           3.00 \n\nlist_fun(bp_list, \"max\")\n\n treat_pre_max treat_post_max treat_diff_max   plac_pre_max  plac_post_max \n           151            146             21            152            143 \n plac_diff_max \n            33"
+  }
+]
